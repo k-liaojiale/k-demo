@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import { Http } from '../utils/http.js'
+import { Http } from '../utils/http'
 
 export default {
   name: 'home',
