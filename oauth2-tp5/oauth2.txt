@@ -1,1 +1,0 @@
-https://bshaffer.github.io/oauth2-server-php-docs/cookbook/
