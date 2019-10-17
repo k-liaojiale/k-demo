@@ -3,6 +3,8 @@ http://www.ruanyifeng.com/blog/2019/04/oauth_design.html
 
 http://bshaffer.github.io/oauth2-server-php-docs/cookbook/
 
+https://github.com/bshaffer/oauth2-server-php/issues/433
+
 ## SQL
 
 ```sql
