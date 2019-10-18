@@ -11,12 +11,12 @@ export default {
   name: 'home',
   created () {
     Http.request({
-      url: '/api/getProducts.php?page=1'
+      url: '/resource.php'
     }).then(res => {
       console.log(res)
     })
     Http.request({
-      url: '/api/getProducts.php?page=1'
+      url: '/resource.php'
     }).then(res => {
       console.log(res)
     })
