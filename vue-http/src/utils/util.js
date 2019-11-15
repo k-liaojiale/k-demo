@@ -2,7 +2,7 @@ const promisic = function (func) {
   return function (params = {}) {
     return new Promise((resolve, reject) => {
       func(params).then(res => {
-        resolve(res)
+        resolve(res.data)
       }).catch(err => {
         reject(err)
       })
@@ -26,7 +26,7 @@ const settLocalStorage = function (key, value, storTime = '') {
   try {
     localStorage.setItem(key, valueDate)
   } catch (e) {
-    console.log('Error: 保存到本地存储失败')
+    console.log('Error: 保存到本地存储失败' + e)
   }
 }
 
@@ -57,7 +57,7 @@ const getLocalStorage = function (key) {
       return null
     }
   } catch (e) {
-    console.log('Error: 获取失败')
+    console.log('Error: 获取失败' + e)
   }
 }
 

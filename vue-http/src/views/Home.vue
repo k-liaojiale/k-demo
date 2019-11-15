@@ -11,12 +11,12 @@ export default {
   name: 'home',
   created () {
     Http.request({
-      url: '/resource.php'
+      url: '/api/resource.php'
     }).then(res => {
       console.log(res)
     })
     Http.request({
-      url: '/resource.php'
+      url: '/api/resource.php'
     }).then(res => {
       console.log(res)
     })

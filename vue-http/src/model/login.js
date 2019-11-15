@@ -7,7 +7,7 @@ class Login {
 
   static async login (username, password) {
     const res = await Http.request({
-      url: '/token.php',
+      url: '/api/token.php',
       data: {
         grant_type: 'password',
         username,
