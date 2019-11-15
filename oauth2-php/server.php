@@ -22,25 +22,25 @@ $server = new OAuth2\Server($storage, array(
 ));
 
 // Add the "Client Credentials" grant type (it is the simplest of the grant types)
-$server->addGrantType(new OAuth2\GrantType\ClientCredentials($storage));
+// $server->addGrantType(new OAuth2\GrantType\ClientCredentials($storage));
 
 // Add the "Authorization Code" grant type (this is where the oauth magic happens)
-$server->addGrantType(new OAuth2\GrantType\AuthorizationCode($storage));
+// $server->addGrantType(new OAuth2\GrantType\AuthorizationCode($storage));
+
+$server->addGrantType(new OAuth2\GrantType\UserCredentials($storage));
 
 // create the grant type
-$grantType = new OAuth2\GrantType\UserCredentials($storage);
-
-// add the grant type to your OAuth server
-$server->addGrantType($grantType);
+// $grantType = new OAuth2\GrantType\UserCredentials($storage);
 
 // create the grant type
-$grantType = new OAuth2\GrantType\RefreshToken($storage);
+// $grantType = new OAuth2\GrantType\RefreshToken($storage);
 
 // the refresh token grant request will have a "refresh_token" field
 // with a new refresh token on each request
 $grantType = new OAuth2\GrantType\RefreshToken($storage, array(
   'always_issue_new_refresh_token' => true,
 ));
+//$grantType = new OAuth2\GrantType\RefreshToken($storage);
 
 // add the grant type to your OAuth server
 $server->addGrantType($grantType);

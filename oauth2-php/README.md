@@ -5,6 +5,8 @@ http://bshaffer.github.io/oauth2-server-php-docs/cookbook/
 
 https://github.com/bshaffer/oauth2-server-php/issues/433
 
+https://segmentfault.com/a/1190000016408592
+
 ## SQL
 
 ```sql
