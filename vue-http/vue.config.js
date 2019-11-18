@@ -8,7 +8,7 @@ module.exports = {
     proxy: {
       '/api': {
         // 目标 API 地址
-        target: process.env.VUE_APP_OAUTH2_URL,
+        target: process.env.API_URL,
         pathRewrite: {
           '^/api': ''
         }

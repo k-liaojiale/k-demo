@@ -15,7 +15,6 @@ const promisic = function (func) {
  * @param key      存储的key
  * @param value    存储的值
  * @param storTime 过期时间/秒
- * @return
  */
 const settLocalStorage = function (key, value, storTime = '') {
   var expTime = storTime !== '' ? new Date().getTime() / 1000 + storTime : ''
@@ -33,7 +32,7 @@ const settLocalStorage = function (key, value, storTime = '') {
 /**
  * 获取本地存储值
  * @param key 存储的key
- * @return
+ * @return null | String
  */
 const getLocalStorage = function (key) {
   try {
