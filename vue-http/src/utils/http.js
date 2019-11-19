@@ -1,18 +1,19 @@
 import axios from 'axios'
+import router from '../router'
 import { promisic } from './util'
-import { Token } from './token'
-import qs from 'qs'
+import { Token } from '@/model/token'
 
 let instance
 let waitReq = []
 
-const passUrl = [
+const excludeUrls = [
+  '/test/*',
   '/api/login.php',
-  '/api/reToken.php'
+  '/api/refreshToken.php'
 ]
 
 const defaultConfig = {
-  baseURL: '',
+  baseURL: '/api',
   headers: {
     'Content-Type': 'application/json' // application/x-www-form-urlencoded
   }
@@ -34,8 +35,7 @@ const merge = function (target) {
   return target
 }
 
-const initInstance = function (options) {
-  console.log(merge(defaultConfig, options))
+const initAxios = function (options) {
   instance = axios.create(merge(defaultConfig, options))
 
   /**
@@ -44,7 +44,8 @@ const initInstance = function (options) {
   instance.interceptors.request.use(
     async config => {
       // 无需拦截的请求
-      if (passUrl.includes(config.url)) {
+      if (judge(config.url)) {
+        console.log(config.url)
         return config
       }
       // 若正在刷新token,则挂起当前请求
@@ -52,6 +53,13 @@ const initInstance = function (options) {
         return hangReq(config)
       }
       const accessToken = await Token.getAccessToken()
+      // token值获取失败
+      if (!accessToken) {
+        router.replace({
+          path: '/login'
+        })
+        return hangReq(config)
+      }
       config.headers.Authorization = `bearer ${accessToken}`
       // 重新发起挂起的请求
       reReq(accessToken)
@@ -61,6 +69,22 @@ const initInstance = function (options) {
       return Promise.reject(err)
     }
   )
+}
+
+const judge = function (url) {
+  if (url.indexOf('?') !== -1) {
+    url = url.split('?')[0]
+  }
+  for (let i in excludeUrls) {
+    if (excludeUrls[i].indexOf('*') !== -1) {
+      let expUrl = excludeUrls[i].slice(0, excludeUrls[i].indexOf('*') - 1)
+      let regExp = new RegExp('^(\\' + expUrl + ').*$')
+      if (url.match(regExp)) {
+        return true
+      }
+    }
+  }
+  return excludeUrls.includes(url)
 }
 
 /**
@@ -87,14 +111,11 @@ const reReq = function (token) {
 }
 
 class Http {
-  static request (params, options) {
-    if (params.headers && params.headers['Content-Type'] === 'application/x-www-form-urlencoded') {
-      params.data = qs.stringify(params.data)
-    }
+  static request (p, op) {
     if (!instance) {
-      initInstance(options)
+      initAxios(op)
     }
-    return promisic(instance)(params)
+    return promisic(instance)(p)
   }
 
   static get (url, { params = {} }, options) {
@@ -106,6 +127,4 @@ class Http {
   }
 }
 
-export {
-  Http
-}
+export { Http }

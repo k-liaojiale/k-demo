@@ -5,8 +5,8 @@
 </template>
 
 <script>
-import { Login } from '../model/login'
-import { settLocalStorage } from '../utils/util'
+import { Login } from '@/model/login'
+import { Token } from '@/model/token'
 
 export default {
   name: 'login',
@@ -16,8 +16,7 @@ export default {
       alert(res.error_description || '登录失败')
       return
     }
-    settLocalStorage('refreshToken', res.refresh_token)
-    settLocalStorage('accessToken', res.access_token, res.expires_in)
+    Token.save(res.access_token, res.refresh_token, res.expires_in)
   }
 }
 </script>

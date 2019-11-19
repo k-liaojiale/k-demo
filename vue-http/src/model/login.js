@@ -6,7 +6,7 @@ class Login {
 
   static async login (username, password) {
     return Http.post(
-      '/api/login.php', {
+      '/login.php', {
         data: {
           username,
           password

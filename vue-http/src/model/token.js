@@ -1,5 +1,5 @@
-import { Http } from './http'
-import { settLocalStorage, getLocalStorage } from './util'
+import { Http } from '@/utils/http'
+import { settLocalStorage, getLocalStorage } from '@/utils/util'
 
 class Token {
   static refreshing = false
@@ -23,18 +23,22 @@ class Token {
     }
     // 标识token处于刷新状态
     Token.refreshing = true
-    const res = await Http.post({
-      url: '/api/reToken.php',
-      data: {
-        refresh_token: refreshToken
-      }
-    })
+    const res = await Http.post(
+      '/refreshToken.php', {
+        data: {
+          refresh_token: refreshToken
+        }
+      })
     // 存储token
-    settLocalStorage('accessToken', res.access_token, res.expires_in)
-    settLocalStorage('refreshToken', res.refresh_token)
+    this.save(res.access_token, res.refresh_token, res.expires_in)
     // 标识token刷新完成
     Token.refreshing = false
     console.info('token刷新完成')
+  }
+
+  static save (accessToken, refreshToken, expiresIn) {
+    settLocalStorage('accessToken', accessToken, expiresIn)
+    settLocalStorage('refreshToken', refreshToken)
   }
 }
 
