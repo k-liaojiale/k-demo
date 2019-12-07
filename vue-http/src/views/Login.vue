@@ -6,7 +6,7 @@
 
 <script>
 import { Login } from '@/model/login'
-import { Token } from '@/model/token'
+import { Token } from '@/utils/token'
 
 export default {
   name: 'login',

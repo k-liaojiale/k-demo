@@ -1,10 +1,10 @@
 import axios from 'axios'
 import router from '../router'
 import { promisic } from './util'
-import { Token } from '@/model/token'
+import { Token } from './token'
 
 let instance
-let waitReq = []
+let pending = []
 
 const excludeUrls = [
   '/test/*',
@@ -92,7 +92,7 @@ const judge = function (url) {
  */
 const hangReq = function (c) {
   return new Promise((resolve, reject) => {
-    waitReq.push((token) => {
+    pending.push((token) => {
       c.headers.Authorization = 'bearer ' + token
       resolve(c)
     })
@@ -103,10 +103,10 @@ const hangReq = function (c) {
  * 重新请求
  */
 const reReq = function (token) {
-  if (waitReq.length > 0) {
+  if (pending.length > 0) {
     console.log('restart')
-    waitReq.map(cb => cb(token))
-    waitReq = []
+    pending.map(cb => cb(token))
+    pending = []
   }
 }
 
